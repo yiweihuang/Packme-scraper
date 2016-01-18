@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+require 'thor'
+require 'packme' # for production
+
+class TripPlanCLI < Thor
+  desc 'Entering a city or country', 'Search for trip plans of the city(country)'
+  def search(trip_name)
+    planInfo = TripPlan::PlanData.new(trip_name)
+    for i in 0..planInfo.size-1
+        place = planInfo.trip_data[i][0]
+        days = planInfo.trip_data[i][1]
+        link = planInfo.trip_link[i]
+        img = planInfo.trip_img.compact[i]
+        puts "Destination : #{trip_name}"
+        puts "#{place} , duration : #{days}"
+        puts "Content : #{link}"
+        puts "Photo : #{img}"
+    end
+  end
+end
+
+TripPlanCLI.start(ARGV)
